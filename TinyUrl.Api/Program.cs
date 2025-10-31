@@ -59,7 +59,7 @@ app.MapGet("/api/tinyurl/search/{term}", async (string term, AppDbContext db) =>
         .ToListAsync());
 
 
-// delete the url by id
+// delete the urls by id
 app.MapDelete("/api/tinyurl/{id}", async (int id, AppDbContext db) =>
 {
     var url = await db.TinyUrls.FindAsync(id);
