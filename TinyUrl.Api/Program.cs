@@ -4,6 +4,16 @@ using TinyUrl.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy => policy
+            .WithOrigins("http://localhost:4200") // Angular app
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 // Add services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -11,6 +21,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+
+app.UseCors("AllowFrontend");
 
 if (app.Environment.IsDevelopment())
 {
@@ -54,6 +66,8 @@ app.MapGet("/api/tinyurl", async (AppDbContext db) =>
 
 // search urls by term
 app.MapGet("/api/tinyurl/search/{term}", async (string term, AppDbContext db) =>
+
+
     await db.TinyUrls
         .Where(t => t.OriginalURL.Contains(term) || t.ShortURL.Contains(term))
         .ToListAsync());
