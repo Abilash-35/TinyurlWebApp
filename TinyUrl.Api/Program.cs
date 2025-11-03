@@ -38,6 +38,12 @@ using (var scope = app.Services.CreateScope())
 
 app.UseCors("AllowFrontend");
 
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseHttpsRedirection();
+
+
 app.Use(async (context, next) =>
 {
     try
@@ -51,12 +57,6 @@ app.Use(async (context, next) =>
         throw; 
     }
 });
-
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
 
 
 // Create Short Url
