@@ -1,4 +1,4 @@
-This repo includes both front end and backend application with these features 
+This repo includes backend application with these features  and also did hosting with render
 
 Shorten URLs with a 6-character code  
 Redirect to original URLs  
