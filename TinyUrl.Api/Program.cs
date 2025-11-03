@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TinyUrl.Api.Data;
 using TinyUrl.Api.Models;
 
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 var port = Environment.GetEnvironmentVariable("PORT") ?? "44335";
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
-// ?? CORS setup � allow both local and Render frontend
+// 🔹 CORS setup — allow both local and Render frontend
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -31,11 +31,8 @@ var app = builder.Build();
 
 app.UseCors("AllowFrontend");
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
