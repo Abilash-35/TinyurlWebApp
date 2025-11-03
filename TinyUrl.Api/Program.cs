@@ -29,6 +29,27 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next.Invoke();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"⚠️ Unhandled exception: {ex.Message}");
+        Console.WriteLine(ex.StackTrace);
+        throw; 
+    }
+});
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
+
 app.UseCors("AllowFrontend");
 
 app.UseSwagger();
