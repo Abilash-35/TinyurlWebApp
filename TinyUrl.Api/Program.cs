@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
         policy => policy
             .WithOrigins(
                 "http://localhost:4200",
-                "https://tinyurl-frontend.onrender.com"  
+                "https://tinyurl-frontend.onrender.com"   
             )
             .AllowAnyMethod()
             .AllowAnyHeader());
@@ -33,24 +33,10 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    try
-    {
-        Console.WriteLine(" Running database migration...");
-        db.Database.Migrate();
-        Console.WriteLine("Database migration completed successfully.");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Migration failed: {ex.Message}");
-    }
+    db.Database.Migrate();
 }
+
 app.UseCors("AllowFrontend");
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
-
 
 app.Use(async (context, next) =>
 {
@@ -65,6 +51,12 @@ app.Use(async (context, next) =>
         throw; 
     }
 });
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseHttpsRedirection();
 
 
 // Create Short Url
