@@ -92,10 +92,9 @@ app.MapGet("/api/tinyurl", async (AppDbContext db) =>
 
 // search urls by term
 app.MapGet("/api/tinyurl/search/{term}", async (string term, AppDbContext db) =>
-
-
     await db.TinyUrls
-        .Where(t => t.OriginalURL.Contains(term) || t.ShortURL.Contains(term))
+        .Where(t => !t.IsPrivate &&
+                    (t.OriginalURL.Contains(term) || t.ShortURL.Contains(term)))
         .ToListAsync());
 
 
