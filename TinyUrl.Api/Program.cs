@@ -4,16 +4,23 @@ using TinyUrl.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "44335";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
-
+// ?? CORS setup — allow both local and Render frontend
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy => policy
-            .WithOrigins("http://localhost:4200") // Angular app
+            .WithOrigins(
+                "http://localhost:4200",
+                "https://tinyurl-frontend.onrender.com"  
+            )
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
+
+
 // Add services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
