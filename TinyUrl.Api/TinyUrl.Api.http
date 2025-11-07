@@ -1,6 +1,21 @@
-@TinyUrl.Api_HostAddress = http://localhost:5142
+@TinyUrl.Api_HostAddress = https://localhost:7174
 
-GET {{TinyUrl.Api_HostAddress}}/weatherforecast/
+### Create a short URL
+POST {{TinyUrl.Api_HostAddress}}/api/tinyurl
+Content-Type: application/json
+
+{
+  "originalURL": "https://www.google.com",
+  "isPrivate": false
+}
+
+### List all public URLs
+GET {{TinyUrl.Api_HostAddress}}/api/tinyurl
 Accept: application/json
 
-###
+### Search by term
+GET {{TinyUrl.Api_HostAddress}}/api/tinyurl/search/google
+Accept: application/json
+
+### Delete by ID
+DELETE {{TinyUrl.Api_HostAddress}}/api/tinyurl/1
